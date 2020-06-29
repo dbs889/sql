@@ -119,7 +119,7 @@ SELECT *
 FROM emp
 WHERE mgr NOT IN (7698, 7839,  NULL); ----> 데이터 값이 안 나옴 
  mgr IN (7698, 7839,  NULL); ==> mgr = 7698 OR mgr  = 7839  OR mgr  = NULL
- mgr NOT IN (7698, 7839,  NULL); ==> mgr != 7698 AND mgr ! = 7839  AND mgr  != NULL; ---> 앞에 어떤 조건이 오더라도 NULL이 있기 때문에 결과는 FALSE이다 따라서 결과가 안 나온다
+ mgr NOT IN (7698, 7839,  NULL); ==> mgr != 7698 AND mgr ! = 7839  AND mgr != NULL; ---> 앞에 어떤 조건이 오더라도 NULL이 있기 때문에 결과는 FALSE이다 따라서 결과가 안 나온다
                                                                                        ---> IN 연산자에서는 NULL이 오더라도 결과가 나올 수 있다     
 mgr IN (7698, 7839) ==> OR   ------>IN은 OR의 역할을 한다
 mgr = 7698 OR mgr = 7839
