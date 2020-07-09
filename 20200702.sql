@@ -2,10 +2,10 @@ GROUP 함수의 특징
 1. NULL은 그룹함수 연산에서 제외가 된다
 
 Q) 부서번호별 사원의 sal,comm 컬럼의 총 합을 구하기
-SELECT deprno, SUM(sal + comm), SUM(sal + NVL(comm,0)), SUM(sal) + SUM(comm) --SUM(sal + comm) SIM(sal) + SUM(comm)두개의 컬럼의 값이 다르다               
+SELECT deptno, SUM(sal + comm), SUM(sal + NVL(comm,0)), SUM(sal) + SUM(comm) --SUM(sal + comm) SIM(sal) + SUM(comm)두개의 컬럼의 값이 다르다               
                                                          --SUM(sal + comm) sal + comm부터 계산하여 null값 제외
 FROM emp
-GROUP BY deprno;
+GROUP BY deptno;
 
 NULL처리의 효율 --SUM(comm)에서 null 값을 0으로 바꾸고 싶을 때 
 SELECT deptno, SUM(sal) + NVL(SUM(comm),0)  --커미션을 다 더하고 맨 마지막에 나온 결과에 대해 NVL한다
