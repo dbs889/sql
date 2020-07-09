@@ -119,7 +119,7 @@ LEFT OUTER JOIN + UNION + RIGHT OUTER JOIN + INTERSECT  + FULL OUTER JOIN = FULL
 실습 OUTER JOIN 1
 SELECT TO_CHAR(b.buy_date,'YY/MM/DD') buy_date,
         b.buy_prod, p.prod_id,p.prod_name,buy_qty
-FROM  buyprod b ,prod p     
+FROM  buyprod b ,prod p   
 WHERE b.buy_prod(+) = p.prod_id
      AND buy_date(+)= '05/01/25' ;    
 
