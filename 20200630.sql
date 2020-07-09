@@ -53,8 +53,7 @@ FROM dual;
 SELECT  
     TO_CHAR(LAST_DAY('20191201'), 'YYYYMM') param, TO_CHAR(LAST_DAY('20191201'), 'DD') dt,
         TO_CHAR(LAST_DAY('20191101'), 'YYYYMM') param1, TO_CHAR(LAST_DAY('20191101'), 'DD') dt1,
-        TO_CHAR(LAST_DAY('20160201'), 'YYYYMM') param2, TO_CHAR(LAST_DAY('20160201'), 'DD') dt2,
-     
+        TO_CHAR(LAST_DAY('20160201'), 'YYYYMM') param2, TO_CHAR(LAST_DAY('20160201'), 'DD') dt2  
 FROM dual;
 
 
@@ -190,7 +189,6 @@ FROM emp;
         
 SELECT empno, sal, comm, NVL2(comm, comm, 0), 
         sal + comm, sal + NVL2(comm, comm, 0), NVL2(comm, sal + comm, sal)
-
 FROM emp;      
 
 3. NULLIF(expr1,expr2) : null값을 생성하는 목적
