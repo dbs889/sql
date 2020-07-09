@@ -33,17 +33,10 @@
             
         3.3 시도, 시군구 별로 3.2과정에서 생성한 컬럼을 더하면 우리가 구하고자 하는 
             프렌차이즈별 건수가 된다
+
         
 --맘스터치 일 경우 NULL로 조회된다          
-SELECT sido,sigungu,gb, 
-       SUM(DECODE(gb, 'KFC', 1)), SUM(DECODE(gb, '버거킹', 1)), 
-        SUM(DECODE(gb, '맥도날드', 1)), SUM(DECODE(gb, '롯데리아', 1))
-FROM fastfood
-WHERE gb IN('KFC','버거킹','맥도날드','롯데리아')
-GROUP BY sido, sigungu;
 
-SELECT *
-FROM burgerstore;
 
 SELECT sido,sigungu,
        ROUND((NVL(SUM(DECODE(storecategory, 'KFC', 1)),0)+
@@ -69,6 +62,33 @@ FROM tax;
 같은 순위끼리 하나의 행에 데이터가 보여지도록
 1. 서울 강남수 6.4 1. 울산 동구 80
 
+유네 연습 
+
+SELECT *
+FROM
+(SELECT ROWNUM rn ,sido,sigungu,score
+FROM
+(SELECT sido,sigungu, 
+        ROUND((NVL(SUM(DECODE(storecategory,'KFC',1)),0)+
+         NVL(SUM(DECODE(storecategory,'BURGER KING',1)),0)+
+          NVL(SUM(DECODE(storecategory,'MACDONALD',1)),0))/
+           NVL(SUM(DECODE(storecategory,'LOTTERIA',1)),1),2) score
+FROM burgerstore
+WHERE storecategory IN('KFC','BURGER KING','MACDONALD','LOTTERIA')
+GROUP BY sido,sigungu
+ORDER BY score DESC))bu,
+(SELECT ROWNUM rn,sido,sigungu,psal
+FROM 
+(SELECT sido,sigungu,ROUND(sal/people,2) psal
+FROM tax
+ORDER BY psal DESC)) ta
+WHERE bu.rn = ta.rn
+ORDER BY ta.rn;
+
+--------------------------------------------------------------------
+
+
+
 SELECT ROWNUM rn,sido,sigungu,score
 FROM
 (SELECT sido,sigungu,
@@ -87,7 +107,7 @@ FROM
 (SELECT sido,sigungu,ROUND(sal/people,2) psal
 FROM tax
 ORDER BY psal DESC);
-
+------------------------------------------------------------------------
 
 선생님답
 SELECT buger.*,tax.*
@@ -110,25 +130,7 @@ FROM tax
 ORDER BY psal DESC))tax
 WHERE buger.rn(+) = tax.rn
 ORDER BY tax.rn;
-
-
-유네답
-SELECT bu.sido,bu.sigungu, bu.score,ta.sido,ta.sigungu, ta.psal
-FROM
-(SELECT sido,sigungu,ROUND(avg(sal/people),2)psal
-FROM tax
-GROUP BY sido, sigungu)ta,
-
-(SELECT sido,sigungu,
-       ROUND((NVL(SUM(DECODE(storecategory, 'KFC', 1)),0)+
-       NVL(SUM(DECODE(storecategory, 'BURGER KING', 1)),0) +
-       NVL(SUM(DECODE(storecategory, 'MACDONALD', 1)),0)) /
-       NVL(SUM(DECODE(storecategory, 'LOTTERIA', 1)),1) ,2)score
-FROM  burgerstore
-WHERE storecategory IN('KFC','BURGER KING','MACDONALD','LOTTERIA')
-GROUP BY sido, sigungu) bu
-
-WHERE ta.sigungu = bu.sigungu;
+---------------------------------------------------------------------------
 
 
 <CROSS JOIN> --묻지마 조인
@@ -240,7 +242,7 @@ SELECT empno,ename,
     (SELECT dname FROM dept WHERE deptno =10) dename 
 FROM emp;
 
-메인쿼리의 컬럼을 사용하는 스칼라 서븤쿼리
+메인쿼리의 컬럼을 사용하는 스칼라 서브쿼리
 SELECT empno,ename,deptno,
         (SELECT deptno FROM dept WHERE deptno = emp.deptno) dename --상호 서브쿼리
 FROM emp;
